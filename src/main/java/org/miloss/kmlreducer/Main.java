@@ -36,8 +36,14 @@ public class Main {
                     return false;
                }
           });
+          int skip=0;
           List<Container> errors = new ArrayList<Container>();
           for (int x = 0; x < listFiles.length; x++) {
+               if (new File(listFiles[x].getAbsolutePath() + "reduced.kml").exists()){
+                    System.err.println(listFiles[x].getAbsolutePath() + "reduced.kml exists already, skipping" );
+                    skip++;
+                    continue;
+               }
                Kml kml = new Kml();
                Kml unmarshal = Kml.unmarshal(listFiles[x]);
 
@@ -72,6 +78,7 @@ public class Main {
                System.out.println("unable to process " + errors.get(x).path.getAbsolutePath());
                errors.get(x).ex.printStackTrace();
           }
+          System.out.println(skip + " files skipped");
 
      }
 
